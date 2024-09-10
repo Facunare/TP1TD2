@@ -113,16 +113,16 @@
 
 
 01111: ; ADDE10S Rx, Ry
-    ALU_enA RB_enOut RB_selectIndexOut=0 ; A <- Rx
-    ALU_enB RB_enOut RB_selectIndexOut=1 ; B <- Ry
-    ALU_OP=ADD ALU_opW
-    ALU_enA  ALU_enOut ; A <- Rx + Ry
-    ALU_enB  ALU_OP=cte0x0A  ; B <- 0x0A
-    ALU_OP=SUB ALU_opW
-    RB_enIn RB_selectIndexIn=0 ALU_enOut ; Rx <- Rx - 0x0A
+    ALU_enA RB_enOut RB_selectIndexOut=0                ; A <- Rx
+    ALU_enB RB_enOut RB_selectIndexOut=1                ; B <- Ry
+    ALU_OP=ADD                           
+    ALU_enA ALU_enOut                                   ; A <- Rx + Ry
+    ALU_enB ALU_enOut ALU_OP=cte0x0a                    ; B <- 10
+    ALU_OP=SUB ALU_opW                 
+    RB_enIn RB_selectIndexIn=0 ALU_enOut                ; Rx <- [Rx + Ry] - 10
+    JO_microOp load_microOp                             ; if O then microOp+2 else microOp+1
     reset_microOp
-    
-01111: ; free
+    RB_enIn RB_selectIndexIn=0 ALU_enOut ALU_OP=cte0xFF ; Rx <- FF
     reset_microOp
     
 10000: ; STR [M] <- Rx
@@ -165,12 +165,16 @@
     JN_microOp load_microOp ; if N then microOp+2 else microOp+1
     reset_microOp
     PC_load    DE_enOutImm  ; PC <- M
+    
     reset_microOp
 
 11000: ; JO
     JO_microOp load_microOp ; if O then microOp+2 else microOp+1
     reset_microOp
     PC_load    DE_enOutImm  ; PC <- M
+
+
+
     reset_microOp
   
 11001: ; SHRA Rx, t

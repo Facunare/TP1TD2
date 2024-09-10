@@ -1,0 +1,5 @@
+main |00| SET R1 , 0x03
+     |02| SET R2 , 0x1a
+ aca |04| ADDE10S R1 , R2
+     |06| JMP halt
+halt |08| JMP halt

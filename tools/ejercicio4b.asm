@@ -13,35 +13,33 @@ main:
 	SET R1, t		;t
 	SET R2, 0x10	;size
 
-
+    PUSH |R7|, R4
+    PUSH |R7|, R5
     PUSH |R7|, R3
     PUSH |R7|, R2
     PUSH |R7|, R1
 	PUSH |R7|, R0	
     SET R3, 0x01
 	CALL |R7|, sumE10S
+	POP |R7|, R0	
+    POP |R7|, R1
     POP |R7|, R2	
     POP |R7|, R3	
+    POP |R7|, R5
+    POP |R7|, R4
     
 
 halt:
 	JMP halt
 
 sumE10S:
-    LOAD R0, [R0]
-    LOAD R1, [R1]
-	ADDE10S R1, R0
-    POP |R7|, R0
-    STR [R0], R1
-    POP |R7|, R1
-    PUSH |R7|, R0	 
-    PUSH |R7|, R1
-    LOAD R0, [R0]
-    POP |R7|, R1
-    STR [R1], R0
-    POP |R7|, R0
-    ADD R1, R3
-	ADD R0, R3
+    LOAD R4, [R0]
+    LOAD R5, [R1]
+	ADDE10S R4, R5
+    STR [R0], R4
+    STR [R1], R4
+    ADD R0, R3
+	ADD R1, R3
     SUB R2, R3
     CMP R2, R3 		
 	JN fin

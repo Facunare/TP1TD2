@@ -293,12 +293,6 @@ def parseInstructions(instructions,labels):
                 parseBytes.append( mem2num(i[1],labels) )
                 
             ##
-            elif i[0] == "ADDINMEM":
-                if len(i) >= 2 and i[1][0] == "R":
-                    n = buidInst({"O": opcodes[i[0]], "X": reg2num(i[1])})
-                    appendParse(parseBytes, parseHuman, i, n)
-                else:
-                    raise ValueError("Error: Invalid instruction \"" + i[0] + "\"")
                 
         except ValueError as err:
             if len(err.args)>0:
